@@ -10,7 +10,10 @@ help:
 
 
 stats.zip: stats.py 
-	zip  -r9 stats.zip stats.py 
+	# AWS Lambda NOW expects the script to be named as lambda_function.py
+	cp stats.py lambda_function.py
+	zip  -r9 stats.zip lambda_function.py
+	rm -f lambda_function.py
 
 package-lambda: stats.zip
 	@echo "create/update lambda deployment package (stats.zip)"
