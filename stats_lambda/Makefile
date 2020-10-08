@@ -12,7 +12,12 @@ help:
 stats.zip: stats.py 
 	# AWS Lambda NOW expects the script to be named as lambda_function.py
 	cp stats.py lambda_function.py
-	zip  -r9 stats.zip lambda_function.py
+	rm stats.zip
+	rm -rf package/
+	pip install --target ./package datadog
+	cp -f citrixadcmetrics.py package/
+	cd package && zip -r9 ../stats.zip .
+	cd .. && zip -g stats.zip lambda_function.py
 	rm -f lambda_function.py
 
 package-lambda: stats.zip
